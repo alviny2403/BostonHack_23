@@ -39,13 +39,21 @@ function draw() {
 
 }
 
-function keyPressed() {
-    if (keyCode===122) {
-        console.log("test")
 
+let clicks = 1;
+
+function keyPressed() {
+    if (keyCode===70 && clicks >0) {
+        // console.log("test")
+        clicks*=-1;
     document.getElementById('defaultCanvas0').style.width = "100vw";
     document.getElementById('defaultCanvas0').style.height = "100vh";
 
+    } else if (keyCode===70 && clicks <0){
+      console.log("test");
+      clicks*=-1;
+      document.getElementById('defaultCanvas0').style.width = "95vw";
+      document.getElementById('defaultCanvas0').style.height = "95vh";
     }
   }
 
