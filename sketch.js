@@ -1,5 +1,6 @@
+let state = 1;
 
-let pX = 125, pY = 125, spd = 7;
+let pX = 125, pY = 125, spd = 2;
 
 function setup(){
     myCanvas = createCanvas(windowWidth-50, windowHeight-50);
@@ -7,7 +8,6 @@ function setup(){
     background(0);
     noStroke();
     fill(10);
-    rectMode(CENTER);
 }
 
 
@@ -23,14 +23,44 @@ function preload() {
 }
 
 function draw() {
-  // Set the loaded image as the background
-  background(backgroundImage);
+  if (state == 1){
+    background(0);
+    rectMode(CENTER);
+    fill(255);
+    stroke(255,0,0);
+    strokeWeight(5);
+    rect(250,350,200,100);
+    fill(255);
+    noStroke();
+    textSize(35);
+    text("--game title--", 75,190);
+    fill(0)
+    text("Start Game",160,362);
+  }
 
-  // Draw a red rectangle at (pX, pY)
-  // fill('red');
-  // rect(pX - 10, pY - 10, 20, 20);
-  image(character, pX , pY, 40, 50);
+  if (state == 2){
+    background(0);
+    rectMode(CENTER);
+    fill(255);
+    stroke(255,0,0);
+    strokeWeight(5);
+    rect(450,350,200,100);
+    fill(255);
+    noStroke();
+    textSize(20);
+    text("stand in page for char selection", 75,190);
+    fill(0)
+    text("select",360,362);
+  }
 
+  if (state == 3){
+    // Set the loaded image as the background
+    background(backgroundImage);
+
+    // Draw a red rectangle at (pX, pY)
+    // fill('red');
+    // rect(pX - 10, pY - 10, 20, 20);
+    image(character, pX , pY, 40, 50);
 
     if (keyIsDown(87)||keyIsDown(38)) pY -= spd;
     if (keyIsDown(83)||keyIsDown(40)) pY += spd;
@@ -42,28 +72,70 @@ function draw() {
     if (pY < 20) pY = 20;
     if (pX < 20) pX = 20;
 
-
     image(npc1, windowWidth*.5, windowHeight*.75,  40, 50);
     image(npc2, windowWidth*.77, windowHeight*.25, 40, 50);
     image(npc3, windowWidth*.35, windowHeight*.45, 40, 50);
 
+    fill(255);
+    rectMode(CORNER);
+    stroke(0);
+    strokeWeight(3);
+    rect(0,0,75,35);
+    noStroke();
+    fill(0);
+    textSize(25);
+    text("back",10,25);
+  }
 }
-
 
 let clicks = 1;
 
 function keyPressed() {
-    if (keyCode===70 && clicks >0) {
-        // console.log("test")
-        clicks*=-1;
+  if (keyCode===70 && clicks >0) {
+    // console.log("test")
+    clicks*=-1;
     document.getElementById('defaultCanvas0').style.width = "100vw";
     document.getElementById('defaultCanvas0').style.height = "100vh";
 
-    } else if (keyCode===70 && clicks <0){
-      console.log("test");
-      clicks*=-1;
-      document.getElementById('defaultCanvas0').style.width = "95vw";
-      document.getElementById('defaultCanvas0').style.height = "95vh";
+  } else if (keyCode===70 && clicks <0){
+    console.log("test");
+    clicks*=-1;
+    document.getElementById('defaultCanvas0').style.width = "95vw";
+    document.getElementById('defaultCanvas0').style.height = "95vh";
+  }
+}
+
+function mouseClicked(){
+  if (state == 1){
+    if (
+      mouseX < 350 && 
+      mouseX > 150 && 
+      mouseY < 400 && 
+      mouseY > 300
+    ){
+      state = 2;
     }
   }
 
+  if (state == 2){
+    if (
+      mouseX < 550 && 
+      mouseX > 350 && 
+      mouseY < 400 && 
+      mouseY > 300
+    ){
+      state = 3;
+    }
+  }
+
+  if (state == 3){
+    if (
+      mouseX < 75 && 
+      mouseX > 0 && 
+      mouseY < 35 && 
+      mouseY > 0
+    ){
+      state = 1;
+    }
+  }
+}
