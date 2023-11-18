@@ -16,6 +16,10 @@ let backgroundImage;
 function preload() {
   // Load the image in the preload function
   backgroundImage = loadImage('mapCropped.png');
+  character = loadImage('Emote-Icons/UI_EmotionIcon3.png');
+  npc1 = loadImage('Emote-Icons/UI_EmotionIcon192.png');
+  npc2 = loadImage('Emote-Icons/UI_EmotionIcon306.png');
+  npc3 = loadImage('Emote-Icons/UI_EmotionIcon325.png');
 }
 
 function draw() {
@@ -23,8 +27,9 @@ function draw() {
   background(backgroundImage);
 
   // Draw a red rectangle at (pX, pY)
-  fill('red');
-  rect(pX - 10, pY - 10, 20, 20);
+  // fill('red');
+  // rect(pX - 10, pY - 10, 20, 20);
+  image(character, pX , pY, 40, 50);
 
 
     if (keyIsDown(87)||keyIsDown(38)) pY -= spd;
@@ -32,10 +37,15 @@ function draw() {
     if (keyIsDown(65)||keyIsDown(37)) pX -= spd; 
     if (keyIsDown(68)||keyIsDown(39)) pX += spd;
 
-    if (pY > windowHeight-50) pY = windowHeight-50;
-    if (pX > windowWidth-50) pX = windowWidth-50;
+    if (pY > windowHeight-125) pY = windowHeight-125;
+    if (pX > windowWidth-100) pX = windowWidth-100;
     if (pY < 20) pY = 20;
     if (pX < 20) pX = 20;
+
+
+    image(npc1, windowWidth*.5, windowHeight*.75,  40, 50);
+    image(npc2, windowWidth*.77, windowHeight*.25, 40, 50);
+    image(npc3, windowWidth*.35, windowHeight*.45, 40, 50);
 
 }
 
