@@ -1,6 +1,6 @@
 let state = 1;
 
-let pX = 125, pY = 125, spd = 2;
+let pX = 125, pY = 125, spd = 8;
 
 function setup(){
     myCanvas = createCanvas(windowWidth-50, windowHeight-50);
@@ -57,24 +57,122 @@ function draw() {
     // Set the loaded image as the background
     background(backgroundImage);
 
+
     // Draw a red rectangle at (pX, pY)
     // fill('red');
     // rect(pX - 10, pY - 10, 20, 20);
-    image(character, pX , pY, 40, 50);
-
-    if (keyIsDown(87)||keyIsDown(38)) pY -= spd;
-    if (keyIsDown(83)||keyIsDown(40)) pY += spd;
-    if (keyIsDown(65)||keyIsDown(37)) pX -= spd; 
-    if (keyIsDown(68)||keyIsDown(39)) pX += spd;
-
-    if (pY > windowHeight-125) pY = windowHeight-125;
-    if (pX > windowWidth-100) pX = windowWidth-100;
-    if (pY < 20) pY = 20;
-    if (pX < 20) pX = 20;
-
-    image(npc1, windowWidth*.5, windowHeight*.75,  40, 50);
-    image(npc2, windowWidth*.77, windowHeight*.25, 40, 50);
-    image(npc3, windowWidth*.35, windowHeight*.45, 40, 50);
+    const myCh = image(character, pX , pY, 40, 50);
+  
+  
+  
+  
+      if (keyIsDown(87)||keyIsDown(38)) pY -= spd;
+      if (keyIsDown(83)||keyIsDown(40)) pY += spd;
+      if (keyIsDown(65)||keyIsDown(37)) pX -= spd;
+      if (keyIsDown(68)||keyIsDown(39)) pX += spd;
+  
+  
+      if (pY > windowHeight-125) pY = windowHeight-125;
+      if (pX > windowWidth-100) pX = windowWidth-100;
+      if (pY < 20) pY = 20;
+      if (pX < 20) pX = 20;
+  
+  
+      if (
+        pX < windowWidth * 0.5 + 40 &&
+        pX + 40 > windowWidth * 0.5 &&
+        pY < windowHeight * 0.75 + 50 &&
+        pY + 50 > windowHeight * 0.75
+      ) {
+        // Collision with NPC1, adjust character position or take other actions
+        // For now, reset character position to the previous position
+        pX = prevPX;
+        pY = prevPY;
+      }
+   
+      // Add similar collision detection logic for other NPCs (npc2, npc3)
+   
+      // Save the current position for the next frame
+      // prevPX = pX;
+      // prevPY = pY;
+   
+      // Boundary constraints for the user's character
+      if (pY > windowHeight - 125) pY = windowHeight - 125;
+      if (pX > windowWidth - 100) pX = windowWidth - 100;
+      if (pY < 20) pY = 20;
+      if (pX < 20) pX = 20;
+  
+  
+  
+  
+  // windowWidth*.77, windowHeight*.25
+  
+  
+  
+  
+      if (
+        pX < windowWidth * 0.77 + 40 &&
+        pX + 40 > windowWidth * 0.77 &&
+        pY < windowHeight * 0.25 + 50 &&
+        pY + 50 > windowHeight * 0.25
+      ) {
+        // Collision with NPC1, adjust character position or take other actions
+        // For now, reset character position to the previous position
+        pX = prevPX;
+        pY = prevPY;
+      }
+   
+      // Add similar collision detection logic for other NPCs (npc2, npc3)
+   
+      // Save the current position for the next frame
+      // prevPX = pX;
+      // prevPY = pY;
+   
+      // Boundary constraints for the user's character
+      if (pY > windowHeight - 125) pY = windowHeight - 125;
+      if (pX > windowWidth - 100) pX = windowWidth - 100;
+      if (pY < 20) pY = 20;
+      if (pX < 20) pX = 20;
+  
+  
+  
+  
+  //windowWidth*.35, windowHeight*.45
+  
+  
+  
+  
+      if (
+        pX < windowWidth * 0.35 + 40 &&
+        pX + 40 > windowWidth * 0.35 &&
+        pY < windowHeight * 0.45 + 50 &&
+        pY + 50 > windowHeight * 0.45
+      ) {
+        // Collision with NPC1, adjust character position or take other actions
+        // For now, reset character position to the previous position
+        pX = prevPX;
+        pY = prevPY;
+      }
+   
+      // Add similar collision detection logic for other NPCs (npc2, npc3)
+   
+      // Save the current position for the next frame
+      prevPX = pX;
+      prevPY = pY;
+   
+      // Boundary constraints for the user's character
+      if (pY > windowHeight - 125) pY = windowHeight - 125;
+      if (pX > windowWidth - 100) pX = windowWidth - 100;
+      if (pY < 20) pY = 20;
+      if (pX < 20) pX = 20;
+  
+  
+     
+  
+      image(npc1, windowWidth*.5, windowHeight*.75,  40, 50);
+      image(npc2, windowWidth*.77, windowHeight*.25, 40, 50);
+      image(npc3, windowWidth*.35, windowHeight*.45, 40, 50);
+  
 
     fill(255);
     rectMode(CORNER);
