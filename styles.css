@@ -1,0 +1,27 @@
+body{
+    margin: 0;
+    padding: 0;
+    
+}
+
+#wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#canvas{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    
+}
+
+/* #defaultCanvas0{
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    
+} */
