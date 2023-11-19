@@ -121,7 +121,7 @@ function draw() {
     textStyle(BOLD);
     textSize(50);
     textAlign(LEFT);
-    text("Village Chronicles: Quest for Prosperity", 75,190);
+    text("Village Chronicles: Quest for Prosperity", 75,windowHeight/2-145);
     textSize(35);
     fill("brown")
     text("Start Game",windowWidth/2-250,windowHeight/2+120);
