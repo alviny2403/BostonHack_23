@@ -64,6 +64,7 @@ class Projectile{
   }
 }
 
+// initialize parameters for monsters minigame
 let shootX = 250, shootY = 350, userScore= 150, enemiesLeft= 25, bulletsFired= 0, bulletsHit= 0;
 let enemyArray= [], bulletArray= [];
 let monsterQuestDone = false;
@@ -75,7 +76,6 @@ function setup(){
     noStroke();
     fill(10);
 }
-
 
 let backgroundImage;
 
@@ -109,9 +109,6 @@ function setup(){
     noStroke();
     fill(10);
 }
-
-
-
 
 function draw() {
   if (state == 1){
@@ -173,16 +170,9 @@ function draw() {
     text("Please Select a Character...", width/2, height/2);
   }
 
-
-  // background(backgroundImage);
-  // filter(BLUR, 3);
-
   if (state == 3){
     background(backgroundImage);
     document.getElementById('selections').style.display = 'none';
-    // if(keyIsDown(87) || keyIsDown(83) ||keyIsDown(65) || keyIsDown(68) || keyIsDown(38) || keyIsDown(40) ||keyIsDown(37) ||keyIsDown(39)) {
-    //   document.getElementById('canvas').style.filter = '';
-    // }
     while(pCreated < 1){
     let p = createP("In the quaint yet enchanting village nestled among gentle, swaying trees and wooden houses, a captivating adventure unfolds. As the characters explore this idyllic setting, they embark on a journey filled with intriguing puzzles while helping the villagers.");
     console.log("textcreated")
@@ -233,7 +223,7 @@ function draw() {
         pY + 50 > windowHeight * 0.75
       ) {
         // Collision with NPC1, adjust character position or take other actions
-        // For now, reset character position to the previous position
+        // Reset character position to the previous position
         pX = prevPX;
         pY = prevPY;
       }
@@ -289,9 +279,6 @@ function draw() {
       if (pY < 20) pY = 20;
       if (pX < 20) pX = 20;
   
-  
-     
-  
       image(npc1, windowWidth*.5, windowHeight*.75,  40, 50);
       image(npc2, windowWidth*.77, windowHeight*.25, 40, 50);
       image(npc3, windowWidth*.35, windowHeight*.45, 40, 50);
@@ -339,10 +326,6 @@ function draw() {
       }
     }
 
-
-
-
-
     fill(255);
     rectMode(CORNER);
     stroke(0);
@@ -357,9 +340,6 @@ function draw() {
 
   if (state == 4){
     background(appleField);
-        //rectMode(CENTER);
-        //fill(125);
-        // rect(bucketX,bucketY,40,40);
         if (selectedCharacter) {
           let index = imagePaths.indexOf(selectedCharacter);
           if (index !== -1) {
@@ -367,17 +347,16 @@ function draw() {
           }
         }
 
+        // left right motion of character
         if (keyIsDown(37)) bucketX -= 5;
         if (keyIsDown(39)) bucketX += 5;
 
-
-        // fill(255);
-        // ellipse(applesArray[appleNum].xPos,applesArray[appleNum].yPos,20,20);
         image(apple1,applesArray[appleNum].xPos,applesArray[appleNum].yPos,30,30);
 
         applesArray[appleNum].yPos += applesArray[appleNum].spd;
         console.log(applesArray[appleNum].yPos)
 
+        // boundary parameters for collision
         if (applesArray[appleNum].yPos > 550){
             applesArray[appleNum].yPos = -50;
             state = 3;
@@ -425,7 +404,6 @@ function draw() {
         image(images[index], shootX, shootY-30, 50, 60);
       }
     }
-
 
     // Movement of your ship (WASD to move)
     if (keyIsDown(87)||keyIsDown(38)) shootY -= 2;
