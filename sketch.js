@@ -41,6 +41,31 @@ for (let i=0; i<6; i++){
 let appleNum = 0;
 let appleQuestDone = false;
 
+class EnemyShip{
+  constructor(x, y, r, g, b, radius, speed){
+      this.xPos= x;
+      this.yPos= y;
+      this.redValue= r;
+      this.greenValue= g;
+      this.blueValue= b;
+      this.radius= radius;
+      this.speed= speed;
+  }
+}
+
+// Bullet generation
+class Projectile{
+  constructor(x, y, speed){
+      this.xPos= x;
+      this.yPos= y;
+      this.speed= speed;
+  }
+}
+
+let shootX = 250, shootY = 350, userScore= 150, enemiesLeft= 25, bulletsFired= 0, bulletsHit= 0;
+let enemyArray= [], bulletArray= [];
+let monsterQuestDone = false;
+
 function setup(){
     myCanvas = createCanvas(windowWidth-50, windowHeight-50);
     myCanvas.parent('canvas');
@@ -270,8 +295,15 @@ function draw() {
       // Proximity detection for npc interactions
     if (dist(pX,pY,windowWidth*.5,windowHeight*.75) < 100){ //panda looking dude
     }
-    if (dist(pX,pY,windowWidth*.77,windowHeight*.25) < 150){
-      
+    if (dist(pX,pY,windowWidth*.77,windowHeight*.25) < 100){
+      fill(0);
+      rect(windowWidth*.65,windowHeight*.55,250,150);
+      fill(255);
+      if (!monsterQuestDone){
+        text("Accept Quest?\nClick for Yes",windowWidth*.68,windowHeight*.65)
+      } else {
+        text("Quest Finished\n :)",windowWidth*.68,windowHeight*.65)
+      }
     }
     if (dist(pX,pY,windowWidth*.35,windowHeight*.45) < 100){
       fill(0);
@@ -345,6 +377,91 @@ function draw() {
         console.log(appleNum);
 
   }
+
+  if (state == 5){
+    background(0);
+    stroke(0);
+    strokeWeight(1);
+    fill(0,0,255);
+    rect(350,windowHeight-100,100,100);
+
+    // Create "enemies" using values stored in the array
+    for (let i= 0; i< enemyArray.length; i++){
+        fill(
+            enemyArray[i].redValue, 
+            enemyArray[i].greenValue, 
+            enemyArray[i].blueValue
+        );
+        ellipse(
+            enemyArray[i].xPos, 
+            enemyArray[i].yPos, 
+            enemyArray[i].radius, 
+            enemyArray[i].radius
+        );
+        enemyArray[i].xPos+= enemyArray[i].speed/5;
+
+       }
+
+        // Your spaceship
+    fill(35,120,200);
+    ellipse(shootX,shootY ,20,20);
+    rectMode(CENTER);
+    rect(shootX+20,shootY ,30,5);
+        
+
+    // Movement of your ship (WASD to move)
+    if (keyIsDown(87)) shootY -= 2;
+    if (keyIsDown(83)) shootY += 2;
+    if (keyIsDown(65)) shootX-= 2;
+    if (keyIsDown(68)) shootX+= 2;
+
+    // Boundaries of the ship
+    if (shootY  > 480) shootY  = 480;
+    if (shootY  < 20) shootY = 20;
+    if (shootX > 250) shootX= 250;
+    if (shootX < 20) shootX= 20;
+
+    // Generate bullet
+    for (let i= 0; i< bulletArray.length; i++){
+        fill(255)
+        ellipse(bulletArray[i].xPos,bulletArray[i].yPos,5,5);
+        bulletArray[i].xPos+= bulletArray[i].speed;
+          
+        // Delete bullet and enemy entity when in contact
+        for (let j= 0; j< enemyArray.length; j++){
+            if (
+                dist(
+                    bulletArray[i].xPos, 
+                    bulletArray[i].yPos, 
+                    enemyArray[j].xPos, 
+                    enemyArray[j].yPos
+                ) < 
+                    enemyArray[j].radius/ 2
+              ){
+                enemyArray.splice(j,1);
+                bulletArray.splice(i,1);
+                enemiesLeft-- ;
+                bulletsHit++ ;
+                break;
+              }
+        }
+    }
+
+    // Display data
+    fill(255);
+    textSize(20);
+    text("Evil Balloons left: "+enemiesLeft, 25,windowHeight-75);
+    text("Bullets hit: "+bulletsHit, 25, windowHeight-100);
+    text("Shots fired: "+bulletsFired, 25, windowHeight-125);
+    text("Press\nEnter\nTo Shoot", 310,windowHeight-120);
+
+    if (enemiesLeft == 0){
+        bulletArray.splice(0,bulletArray.length);
+        state= 3;
+        monsterQuestDone = true;
+    }
+    
+  }
 }
 
 let clicks = 1;
@@ -361,6 +478,16 @@ function keyPressed() {
     clicks*=-1;
     document.getElementById('defaultCanvas0').style.width = "95vw";
     document.getElementById('defaultCanvas0').style.height = "95vh";
+  }
+}
+
+function keyPressed(){
+  if (key == ' ' && state == 5){
+      // Generates a bullet for "Shoot Bullet" button
+      let tempBullet= new Projectile(shootX+35, shootY, 5);
+      bulletArray.push(tempBullet);
+      userScore-- ;
+      bulletsFired++ ;
   }
 }
 
@@ -415,8 +542,33 @@ function mouseClicked(){
     ){
       state = 4;
     }
+    if (
+      !monsterQuestDone &&
+      dist(pX,pY,windowWidth*.77,windowHeight*.25) < 100 &&
+      mouseX < windowWidth*.65+250 && 
+      mouseX > windowWidth*.65 && 
+      mouseY < windowHeight*.55+150 && 
+      mouseY > windowHeight*.55
+    ){
+      state = 5;
+      // Create 25 "enemies"(circles) with randomized attributes
+      // Load the "enemies" into an array
+      for (let i= 0; i< 25; i++){
+      let tempShip= new EnemyShip(
+          random(750,900),
+          random(25,475),
+          random(0,255),
+          random(0,255),
+          random(0,255),
+          random(25,50),
+          random(-3,-1)
+      );
+      enemyArray.push(tempShip);
+      }
+    }
 
   }
+
 }
 
 // Function to check if the mouse is over a specific element
