@@ -94,7 +94,8 @@ function preload() {
   apple1 = loadImage('apple1.png');
   appleField = loadImage('apple-field.png');
   home = loadImage('homescreen.png');
-
+  monster = loadImage('Emote-Icons/UI_EmotionIcon175.png');
+  forest = loadImage('forest.png');
 
 }
 
@@ -387,34 +388,24 @@ function draw() {
   }
 
   if (state == 5){
-    background(0);
-    stroke(0);
-    strokeWeight(1);
-    fill(0,0,255);
-    rect(350,windowHeight-100,100,100);
+    background(forest);
 
     // Create "enemies" using values stored in the array
     for (let i= 0; i< enemyArray.length; i++){
-        fill(
-            enemyArray[i].redValue, 
-            enemyArray[i].greenValue, 
-            enemyArray[i].blueValue
-        );
-        ellipse(
-            enemyArray[i].xPos, 
-            enemyArray[i].yPos, 
-            enemyArray[i].radius, 
-            enemyArray[i].radius
-        );
+        imageMode(CENTER);
+        image(monster,enemyArray[i].xPos,enemyArray[i].yPos,30,30);
         enemyArray[i].xPos+= enemyArray[i].speed/5;
-
+        imageMode(CORNER);
        }
 
-        // Your spaceship
-    fill(35,120,200);
-    ellipse(shootX,shootY ,20,20);
-    rectMode(CENTER);
-    rect(shootX+20,shootY ,30,5);
+       // your character
+    if (selectedCharacter) {
+      let index = imagePaths.indexOf(selectedCharacter);
+      if (index !== -1) {
+        image(images[index], shootX, shootY-30, 50, 60);
+      }
+    }
+
         
 
     // Movement of your ship (WASD to move)
@@ -458,10 +449,10 @@ function draw() {
     // Display data
     fill(255);
     textSize(20);
-    text("Evil Balloons left: "+enemiesLeft, 25,windowHeight-75);
+    text("Monsters left: "+enemiesLeft, 25,windowHeight-75);
     text("Bullets hit: "+bulletsHit, 25, windowHeight-100);
     text("Shots fired: "+bulletsFired, 25, windowHeight-125);
-    text("Press\nEnter\nTo Shoot", 310,windowHeight-120);
+    text("Press\nSpace\nTo Shoot", 310,windowHeight-120);
 
     if (enemiesLeft == 0){
         bulletArray.splice(0,bulletArray.length);
