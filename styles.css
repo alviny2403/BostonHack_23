@@ -57,3 +57,16 @@ body{
     width: 10vw;
 }
 
+#text{
+    /* background-color: aqua; */
+    position: absolute;
+    padding: 1vh 1vw;
+    text-align: justify;
+    height: 14vh;
+    width: 60vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+

@@ -4,6 +4,8 @@ let pX = 125, pY = 125, spd = 8;
 
 let divsCreated = 0;
 
+let pCreated = 0;
+
 let selectedCharacter;
 
 let images = [];
@@ -178,6 +180,21 @@ function draw() {
     // if(keyIsDown(87) || keyIsDown(83) ||keyIsDown(65) || keyIsDown(68) || keyIsDown(38) || keyIsDown(40) ||keyIsDown(37) ||keyIsDown(39)) {
     //   document.getElementById('canvas').style.filter = '';
     // }
+    while(pCreated < 1){
+    let p = createP("In the quaint yet enchanting village nestled among gentle, swaying trees and wooden houses, a captivating adventure unfolds. As the characters explore this idyllic setting, they embark on a journey filled with intriguing puzzles while helping the villagers.");
+    console.log("textcreated")
+
+    p.parent('text');
+
+    document.getElementById('text').style.backgroundColor = "white"
+    document.getElementById('text').style.border = "1px solid black"
+    document.getElementById('text').style.filter = '';
+
+    p.id('text1');
+
+      pCreated++;
+
+    }
 
 
     if (keyIsPressed===true) {
@@ -185,6 +202,7 @@ function draw() {
 
     if(value == 1) {
         document.getElementById('canvas').style.filter = '';
+        document.getElementById('text').style.display = 'none';
       }
 
     if (selectedCharacter) {
