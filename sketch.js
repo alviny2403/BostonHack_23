@@ -12,6 +12,20 @@ let images = [];
 
 let value;
 
+let dialogueState = 0;
+
+let catDialogue = [
+  "Meow... Oh, hello there, traveler. Meow...",
+  "Hey, little kitty. What seems to be the matter?",
+  "Meow... It's just that these monsters nearby are causing trouble. Meow... I wish someone could help me with them.",
+  "Monsters, huh? I can help. What do you need?",
+  "These dreadful creatures that keep coming closer to our village. Can you protect us and beat the approaching monsters?",
+  "Don't worry, I'll do my best to protect the village."
+
+
+
+]
+
 
 
 let imagePaths = [
@@ -176,22 +190,22 @@ function draw() {
 
   if (state == 3){
     background(backgroundImage);
-    document.getElementById('canvas').style.filter = 'blur(2px)';
+    // document.getElementById('canvas').style.backdropFilter = 'blur(2px)';
     document.getElementById('selections').style.display = 'none';
     // if(keyIsDown(87) || keyIsDown(83) ||keyIsDown(65) || keyIsDown(68) || keyIsDown(38) || keyIsDown(40) ||keyIsDown(37) ||keyIsDown(39)) {
     //   document.getElementById('canvas').style.filter = '';
     // }
     while(pCreated < 1){
-    let p = createP("In the quaint yet enchanting village nestled among gentle, swaying trees and wooden houses, a captivating adventure unfolds. As the characters explore this idyllic setting, they embark on a journey filled with intriguing puzzles while helping the villagers.");
+    let p = createP("In the quaint yet enchanting village nestled among gentle, swaying trees and wooden houses, a captivating adventure unfolds. As the characters explore this idyllic setting, they embark on a journey filled with intriguing puzzles while helping the villagers.\n Press an arrow key to begin!");
     console.log("textcreated")
 
     p.parent('text');
+    p.id('text1');
 
     document.getElementById('text').style.backgroundColor = "white"
     document.getElementById('text').style.border = "1px solid black"
     document.getElementById('text').style.filter = '';
 
-    p.id('text1');
 
       pCreated++;
 
@@ -299,12 +313,14 @@ function draw() {
     if (dist(pX,pY,windowWidth*.5,windowHeight*.75) < 100){ //panda looking dude
     }
     if (dist(pX,pY,windowWidth*.77,windowHeight*.25) < 100){
+      fill(225);
+      rect(windowWidth*.1,windowHeight*.65,250,50);
       fill(0);
-      rect(windowWidth*.65,windowHeight*.55,250,150);
-      fill(255);
-      if (!monsterQuestDone){
-        text("Accept Quest?\nClick for Yes",windowWidth*.68,windowHeight*.65)
-      } else {
+      textSize(12)
+      if (!monsterQuestDone && dialogueState ===0){
+        text("Meow... Oh, hello there, traveler. Meow...",windowWidth*.115,windowHeight*.7)
+
+      } else if (monsterQuestDone){
         text("Quest Finished\n :)",windowWidth*.68,windowHeight*.65)
       }
     }
@@ -487,6 +503,35 @@ function keyPressed(){
       userScore-- ;
       bulletsFired++ ;
   }
+}
+
+function keyPressed(){
+  if (keyCode===13) {
+    if (dialogueState ===0) {
+      let p = creatP(catDialogue[dialogueStateState]);
+      p.style.backgroundColor = 'white';
+      p.style.border = '1px solid black';
+      p.parent('text');
+      p.id('text'+[i])
+
+    } else if (dialogueState < catDialogue.length) {
+      // Display additional cat dialogue based on the current dialogue state
+      console.log(catDialogue[dialogueState]);
+
+      // Create a new paragraph element for the additional dialogue
+      let p = createP(catDialogue[dialogueState]);
+
+      // Set styles for the paragraph element
+      p.style.backgroundColor = 'white';
+      p.style.border = '1px solid black';
+
+      // Append the paragraph element to the 'text' element
+      p.parent('text');
+      p.id('text' + dialogueState);
+
+      dialogueState++; // Increment the dialogue state
+  }
+}
 }
 
 function mouseClicked(){
