@@ -31,7 +31,7 @@ class Apples{
 }
 
 let bucketX= 250, 
-    bucketY= 450;
+    bucketY= 550;
 
 let applesArray = [];
 for (let i=0; i<6; i++){
@@ -186,22 +186,6 @@ function draw() {
     if(value == 1) {
         document.getElementById('canvas').style.filter = '';
       }
-    
-
-    
-
-
-
-  
-
-      
-    
-
-
-    // Draw a red rectangle at (pX, pY)
-    // fill('red');
-    // rect(pX - 10, pY - 10, 20, 20);
-    // image(selectedCharacter, pX , pY, 40, 50);
 
     if (selectedCharacter) {
       let index = imagePaths.indexOf(selectedCharacter);
@@ -375,6 +359,12 @@ function draw() {
         }
         console.log(applesArray);
         console.log(appleNum);
+
+      // Display data
+      fill(255);
+      textSize(20);
+      text("Apples left: "+(5-appleNum), 25,windowHeight-100);
+      text("<-- & -->\nTo Move ", 310,windowHeight-120);
 
   }
 
