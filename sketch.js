@@ -2,6 +2,22 @@ let state = 1;
 
 let pX = 125, pY = 125, spd = 8;
 
+let divsCreated = 0;
+
+let selectedCharacter;
+
+let images = [];
+
+let imagePaths = [
+  'Emote-Icons/UI_EmotionIcon3.png',
+  'Emote-Icons/UI_EmotionIcon65.png',
+  'Emote-Icons/UI_EmotionIcon113.png',
+  'Emote-Icons/UI_EmotionIcon369.png',
+  'Emote-Icons/UI_EmotionIcon80.png',
+  'Emote-Icons/UI_EmotionIcon422.png',
+  // Add more image paths as needed
+];
+
 function setup(){
     myCanvas = createCanvas(windowWidth-50, windowHeight-50);
     myCanvas.parent('canvas');
@@ -16,12 +32,12 @@ let backgroundImage;
 function preload() {
   // Load the image in the preload function
   backgroundImage = loadImage('mapCropped.png');
-  character1 = loadImage('Emote-Icons/UI_EmotionIcon3.png');
-  character2 = loadImage('Emote-Icons/UI_EmotionIcon65.png');
-  character3 = loadImage('Emote-Icons/UI_EmotionIcon113.png');
-  characte4 = loadImage('Emote-Icons/UI_EmotionIcon369.png');
-  character5 = loadImage('Emote-Icons/UI_EmotionIcon80.png');
-  character6 = loadImage('Emote-Icons/UI_EmotionIcon422.png');
+  for (let i = 0; i < imagePaths.length; i++) {
+    images[i] = loadImage(imagePaths[i]);
+    console.log(images[i]);
+    console.log(imagePaths[i]);
+  }
+  
   npc1 = loadImage('Emote-Icons/UI_EmotionIcon192.png');
   npc2 = loadImage('Emote-Icons/UI_EmotionIcon306.png');
   npc3 = loadImage('Emote-Icons/UI_EmotionIcon325.png');
@@ -43,6 +59,7 @@ function draw() {
     fill(255);
     noStroke();
     textSize(35);
+    textAlign(LEFT);
     text("--game title--", 75,190);
     fill(0)
     text("Start Game",160,362);
@@ -50,20 +67,44 @@ function draw() {
 
   if (state == 2){
     background(0);
-    rectMode(CENTER);
-    fill(255);
-    stroke(255,0,0);
-    strokeWeight(5);
-    rect(450,350,200,100);
-    fill(255);
-    noStroke();
-    textSize(20);
-    text("stand in page for char selection", 75,190);
-    fill(0)
-    text("select",360,362);
+    if (state == 2 && divsCreated < 6) {
+      background(0);
+      console.log("test")
+      
+      // Create the div
+      let div = createDiv();
+
+      div.parent('selections');
+
+      div.class('characters');
+      
+      // Set the ID for the div
+      div.id('char' + (divsCreated + 1));
+      
+      // Position the div based on its creation order (adjust as needed)
+      // div.position(10, divsCreated * 30);
+      
+      // Update the count of divs created
+      divsCreated++;
+
+
+
+
+    let img = createImg(imagePaths[divsCreated - 1]);
+    img.parent('char' + divsCreated);
+
+    img.class('imgchar');
+  
+    }
+
+    fill(255)
+    textAlign(CENTER);
+    textSize(18);
+    text("Please Select a Character...", width/2, height/2);
   }
 
   if (state == 3){
+    document.getElementById('selections').style.display = 'none';
     // Set the loaded image as the background
     background(backgroundImage);
 
@@ -71,7 +112,16 @@ function draw() {
     // Draw a red rectangle at (pX, pY)
     // fill('red');
     // rect(pX - 10, pY - 10, 20, 20);
-    const myCh = image(character, pX , pY, 40, 50);
+    // image(selectedCharacter, pX , pY, 40, 50);
+
+    if (selectedCharacter) {
+      let index = imagePaths.indexOf(selectedCharacter);
+      if (index !== -1) {
+        image(images[index], pX, pY, 40, 50);
+      }
+    }
+
+
   
   
   
@@ -192,6 +242,7 @@ function draw() {
     noStroke();
     fill(0);
     textSize(25);
+    textAlign(LEFT);
     text("back",10,25);
   }
 }
@@ -214,6 +265,8 @@ function keyPressed() {
 }
 
 function mouseClicked(){
+
+
   if (state == 1){
     if (
       mouseX < 350 && 
@@ -225,17 +278,22 @@ function mouseClicked(){
     }
   }
 
-  if (state == 2){
-    if (
-      mouseX < 550 && 
-      mouseX > 350 && 
-      mouseY < 400 && 
-      mouseY > 300
-    ){
-      state = 3;
+  // images[i] = loadImage(imagePaths[i]);
+
+  if (state == 2) {
+    for (let i = 0; i < 7; i++) {
+      let divId = 'char' + i;
+      console.log(imagePaths[i]);
+
+      // Check if the mouse is pressed over the element with ID 'chari'
+      if (isMouseOverElement(divId)) {
+        selectedCharacter = imagePaths[i-1];
+        console.log("chosesn" + selectedCharacter);
+        state = 3;
+        break;
+      }
     }
   }
-
   if (state == 3){
     if (
       mouseX < 75 && 
@@ -247,3 +305,41 @@ function mouseClicked(){
     }
   }
 }
+
+// Function to check if the mouse is over a specific element
+ function isMouseOverElement(elementId) {
+  let element = document.getElementById(elementId);
+  if (element) {
+    let rect = element.getBoundingClientRect();
+    return mouseX >= rect.left && mouseX <= rect.right && mouseY >= rect.top && mouseY <= rect.bottom;
+  }
+  return false;
+}
+
+  // if (state == 3){
+  //   if (
+  //     mouseX < 75 && 
+  //     mouseX > 0 && 
+  //     mouseY < 35 && 
+  //     mouseY > 0
+  //   ){
+  //     state = 1;
+  //   }
+  // }
+
+// }
+
+// function mouseOverDiv(divId) {
+//   // Check if the mouse is over the div with the specified id
+//   let divElement = select('#' + divId);
+//   if (divElement) {
+//     let divX = divElement.position().x;
+//     let divY = divElement.position().y;
+//     let divWidth = divElement.width();
+//     let divHeight = divElement.height();
+
+//     return mouseX > divX && mouseX < divX + divWidth && mouseY > divY && mouseY < divY + divHeight;
+//   }
+//   return false;
+// }
+
