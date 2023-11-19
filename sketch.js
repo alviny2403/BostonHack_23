@@ -18,13 +18,6 @@ let imagePaths = [
   // Add more image paths as needed
 ];
 
-function setup(){
-    myCanvas = createCanvas(windowWidth-50, windowHeight-50);
-    myCanvas.parent('canvas');
-    background(0);
-    noStroke();
-    fill(10);
-}
 
 
 let backgroundImage;
@@ -44,30 +37,45 @@ function preload() {
   apple1 = loadImage('apple1.png');
   apple2 = loadImage('apple2.png');
   appleField = loadImage('apple-field.png');
+  home = loadImage('homescreen.png');
 
 
 }
 
+function setup(){
+    myCanvas = createCanvas(windowWidth-50, windowHeight-50);
+    myCanvas.parent('canvas');
+    background(0);
+    noStroke();
+    fill(10);
+}
+
+
+
+
 function draw() {
   if (state == 1){
-    background(0);
+    background(home);
     rectMode(CENTER);
-    fill(255);
-    stroke(255,0,0);
-    strokeWeight(5);
-    rect(250,350,200,100);
-    fill(255);
+    fill(225);
+    stroke("brown");
+    strokeWeight(3);
+    rect(windowWidth/2-155,windowHeight/2+110,200,100);
+    rect(550,windowHeight/2-165,1000,100);
+    fill("brown");
     noStroke();
-    textSize(35);
+    textStyle(BOLD);
+    textSize(50);
     textAlign(LEFT);
-    text("--game title--", 75,190);
-    fill(0)
-    text("Start Game",160,362);
+    text("Village Chronicles: Quest for Prosperity", 75,190);
+    textSize(35);
+    fill("brown")
+    text("Start Game",windowWidth/2-250,windowHeight/2+120);
   }
 
   if (state == 2){
     background(0);
-    if (state == 2 && divsCreated < 6) {
+    while(state == 2 && divsCreated < 6){
       background(0);
       console.log("test")
       
@@ -94,6 +102,8 @@ function draw() {
     img.parent('char' + divsCreated);
 
     img.class('imgchar');
+
+
   
     }
 
@@ -117,7 +127,7 @@ function draw() {
     if (selectedCharacter) {
       let index = imagePaths.indexOf(selectedCharacter);
       if (index !== -1) {
-        image(images[index], pX, pY, 40, 50);
+        image(images[index], pX, pY, 50, 60);
       }
     }
 
@@ -266,13 +276,13 @@ function keyPressed() {
 
 function mouseClicked(){
 
-
+  rect(windowWidth/2-160,windowHeight/2+110,200,100);
   if (state == 1){
     if (
-      mouseX < 350 && 
-      mouseX > 150 && 
-      mouseY < 400 && 
-      mouseY > 300
+      mouseX < windowWidth/2-60 && 
+      mouseX > windowWidth/2-260 && 
+      mouseY < windowHeight/2+160 && 
+      mouseY > windowHeight/2+60
     ){
       state = 2;
     }
@@ -301,7 +311,8 @@ function mouseClicked(){
       mouseY < 35 && 
       mouseY > 0
     ){
-      state = 1;
+      document.getElementById('selections').style.display = '';
+      state = 2;
     }
   }
 }
