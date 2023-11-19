@@ -99,6 +99,9 @@ function preload() {
 
 }
 
+let rabbitDiagNum = 0;
+let catDiagNum = 0;
+
 function setup(){
     myCanvas = createCanvas(windowWidth-50, windowHeight-50);
     myCanvas.parent('canvas');
@@ -176,7 +179,6 @@ function draw() {
 
   if (state == 3){
     background(backgroundImage);
-    document.getElementById('canvas').style.filter = 'blur(2px)';
     document.getElementById('selections').style.display = 'none';
     // if(keyIsDown(87) || keyIsDown(83) ||keyIsDown(65) || keyIsDown(68) || keyIsDown(38) || keyIsDown(40) ||keyIsDown(37) ||keyIsDown(39)) {
     //   document.getElementById('canvas').style.filter = '';
@@ -196,7 +198,6 @@ function draw() {
       pCreated++;
 
     }
-
 
     if (keyIsPressed===true) {
       value = 1;}
@@ -299,21 +300,40 @@ function draw() {
     if (dist(pX,pY,windowWidth*.5,windowHeight*.75) < 100){ //panda looking dude
     }
     if (dist(pX,pY,windowWidth*.77,windowHeight*.25) < 100){
+      let catDialogue = [
+        "Sad Cat: Meow... Oh, hello there, \ntraveler. Meow...",
+        "Player: Hey, little kitty. What seems \nto be the matter?",
+        "Sad Cat: Meow... It's just that these \nmonsters nearby are causing trouble. \nMeow... I wish someone could help me \nwith them.",
+        "Player: Monsters, huh? I can help. \nWhat do you need?",
+        "Cat: These dreadful creatures that \nkeep coming closer to our village. Can \nyou protect us and beat the approaching \nmonsters?",
+        "Player: Don't worry, I'll do my best \nto protect the village."
+      ]
       fill(0);
       rect(windowWidth*.65,windowHeight*.55,250,150);
       fill(255);
       if (!monsterQuestDone){
-        text("Accept Quest?\nClick for Yes",windowWidth*.68,windowHeight*.65)
+        textSize(12);
+        text(catDialogue[catDiagNum],windowWidth*.66,windowHeight*.60)
+        text("-->click here to continue<--",windowWidth*.66,windowHeight*.72)
       } else {
         text("Quest Finished\n :)",windowWidth*.68,windowHeight*.65)
       }
     }
     if (dist(pX,pY,windowWidth*.35,windowHeight*.45) < 100){
+      let rabbitDialogue = [
+        "Rabbit: Oh, hello there! I've been \nhopping around, trying to find someone \nto help me with a little task.",
+        "Player: Hi! What do you need help with?",
+        "Rabbit: Well, you see, I spotted the \njuiciest apples in that orchard over \nthere, but they're a bit too quick to ripen \nand fall down. I was wondering if you \ncould lend me a paw, or rather, a hand?",
+        "Player: Sure thing! I can help you pick \nthe apples. Lead the way.",
+        "Rabbit: Great! Follow me, and let's \ngather those delicious apples together."
+      ]
       fill(0);
       rect(windowWidth*.65,windowHeight*.55,250,150);
       fill(255);
       if (!appleQuestDone){
-        text("Accept Quest?\nClick for Yes",windowWidth*.68,windowHeight*.65)
+        textSize(12);
+        text(rabbitDialogue[rabbitDiagNum],windowWidth*.66,windowHeight*.60)
+        text("-->click here to continue<--",windowWidth*.66,windowHeight*.72)
       } else {
         text("Quest Finished\n :)",windowWidth*.68,windowHeight*.65)
       }
@@ -539,7 +559,12 @@ function mouseClicked(){
       mouseY < windowHeight*.55+150 && 
       mouseY > windowHeight*.55
     ){
-      state = 4;
+      //state = 4;
+      if (rabbitDiagNum<4){
+        rabbitDiagNum++;
+      } else {
+        state = 4;
+      }
     }
     if (
       !monsterQuestDone &&
@@ -549,21 +574,26 @@ function mouseClicked(){
       mouseY < windowHeight*.55+150 && 
       mouseY > windowHeight*.55
     ){
-      state = 5;
+      //state = 5;
+      if (catDiagNum<5){
+        catDiagNum++;
+      } else {
+        state = 5;
+        for (let i= 0; i< 25; i++){
+        let tempShip= new EnemyShip(
+            random(750,900),
+            random(25,475),
+            random(0,255),
+            random(0,255),
+            random(0,255),
+            random(25,50),
+            random(-3,-1)
+        );
+        enemyArray.push(tempShip);
+        }
+      }
       // Create 25 "enemies"(circles) with randomized attributes
       // Load the "enemies" into an array
-      for (let i= 0; i< 25; i++){
-      let tempShip= new EnemyShip(
-          random(750,900),
-          random(25,475),
-          random(0,255),
-          random(0,255),
-          random(0,255),
-          random(25,50),
-          random(-3,-1)
-      );
-      enemyArray.push(tempShip);
-      }
     }
 
   }
