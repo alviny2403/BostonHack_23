@@ -18,12 +18,33 @@ let imagePaths = [
   // Add more image paths as needed
 ];
 
+class Apples{
+  constructor(x,y,speed){
+      this.xPos = x;
+      this.yPos = y;
+      this.spd = speed;
+  }
+}
+
+let bucketX= 250, 
+    bucketY= 450;
+
+let applesArray = [];
+for (let i=0; i<6; i++){
+    let tempApple = new Apples(Math.random()*400+50,-50,5)
+    applesArray.push(tempApple);
+}
+let appleNum = 0;
+let appleQuestDone = false;
+
 function setup(){
     myCanvas = createCanvas(windowWidth-50, windowHeight-50);
     myCanvas.parent('canvas');
     background(0);
     noStroke();
     fill(10);
+    popupCanvas1 = createGraphics(500,500);
+    popupCanvas1.hide();
 }
 
 
@@ -121,11 +142,6 @@ function draw() {
       }
     }
 
-
-  
-  
-  
-  
       if (keyIsDown(87)||keyIsDown(38)) pY -= spd;
       if (keyIsDown(83)||keyIsDown(40)) pY += spd;
       if (keyIsDown(65)||keyIsDown(37)) pX -= spd;
@@ -152,23 +168,11 @@ function draw() {
    
       // Add similar collision detection logic for other NPCs (npc2, npc3)
    
-      // Save the current position for the next frame
-      // prevPX = pX;
-      // prevPY = pY;
-   
       // Boundary constraints for the user's character
       if (pY > windowHeight - 125) pY = windowHeight - 125;
       if (pX > windowWidth - 100) pX = windowWidth - 100;
       if (pY < 20) pY = 20;
       if (pX < 20) pX = 20;
-  
-  
-  
-  
-  // windowWidth*.77, windowHeight*.25
-  
-  
-  
   
       if (
         pX < windowWidth * 0.77 + 40 &&
@@ -182,24 +186,11 @@ function draw() {
         pY = prevPY;
       }
    
-      // Add similar collision detection logic for other NPCs (npc2, npc3)
-   
-      // Save the current position for the next frame
-      // prevPX = pX;
-      // prevPY = pY;
-   
       // Boundary constraints for the user's character
       if (pY > windowHeight - 125) pY = windowHeight - 125;
       if (pX > windowWidth - 100) pX = windowWidth - 100;
       if (pY < 20) pY = 20;
       if (pX < 20) pX = 20;
-  
-  
-  
-  
-  //windowWidth*.35, windowHeight*.45
-  
-  
   
   
       if (
@@ -234,6 +225,26 @@ function draw() {
       image(npc3, windowWidth*.35, windowHeight*.45, 40, 50);
   
 
+    if (dist(pX,pY,windowWidth*.5,windowHeight*.75) < 100){ //panda looking dude
+    }
+    if (dist(pX,pY,windowWidth*.77,windowHeight*.25) < 150){
+      
+    }
+    if (dist(pX,pY,windowWidth*.35,windowHeight*.45) < 150){
+      fill(0);
+      rect(windowWidth*.65,windowHeight*.55,250,150);
+      fill(255);
+      if (!appleQuestDone){
+        text("Accept Quest?\nClick for Yes",windowWidth*.68,windowHeight*.65)
+      } else {
+        text("Quest Finished\n :)",windowWidth*.68,windowHeight*.65)
+      }
+    }
+
+
+
+
+
     fill(255);
     rectMode(CORNER);
     stroke(0);
@@ -244,6 +255,43 @@ function draw() {
     textSize(25);
     textAlign(LEFT);
     text("back",10,25);
+  }
+
+  if (state == 4){
+    background(0);
+        rectMode(CENTER);
+        fill(125);
+        rect(bucketX,bucketY,40,40);
+
+        if (keyIsDown(37)) bucketX -= 5;
+        if (keyIsDown(39)) bucketX += 5;
+
+
+        fill(255);
+        ellipse(applesArray[appleNum].xPos,applesArray[appleNum].yPos,20,20);
+        applesArray[appleNum].yPos += applesArray[appleNum].spd;
+        console.log(applesArray[appleNum].yPos)
+
+        if (applesArray[appleNum].yPos > 550){
+            applesArray[appleNum].yPos = -50;
+            state = 3;
+        }
+        if (appleNum < 5){
+            if (
+                applesArray[appleNum].yPos+10 > bucketY-20 &&
+                applesArray[appleNum].xPos > bucketX-20 &&
+                applesArray[appleNum].xPos < bucketX+20
+            ){
+                applesArray[appleNum] = 0;
+                appleNum++;
+            }
+        } else {
+            state = 3;
+            appleQuestDone = true;
+        }
+        console.log(applesArray);
+        console.log(appleNum);
+
   }
 }
 
@@ -303,6 +351,17 @@ function mouseClicked(){
     ){
       state = 1;
     }
+    if (
+      !appleQuestDone &&
+      dist(pX,pY,windowWidth*.35,windowHeight*.45) < 100 &&
+      mouseX < windowWidth*.65+250 && 
+      mouseX > windowWidth*.65 && 
+      mouseY < windowHeight*.55+150 && 
+      mouseY > windowHeight*.55
+    ){
+      state = 4;
+    }
+
   }
 }
 
@@ -315,31 +374,4 @@ function mouseClicked(){
   }
   return false;
 }
-
-  // if (state == 3){
-  //   if (
-  //     mouseX < 75 && 
-  //     mouseX > 0 && 
-  //     mouseY < 35 && 
-  //     mouseY > 0
-  //   ){
-  //     state = 1;
-  //   }
-  // }
-
-// }
-
-// function mouseOverDiv(divId) {
-//   // Check if the mouse is over the div with the specified id
-//   let divElement = select('#' + divId);
-//   if (divElement) {
-//     let divX = divElement.position().x;
-//     let divY = divElement.position().y;
-//     let divWidth = divElement.width();
-//     let divHeight = divElement.height();
-
-//     return mouseX > divX && mouseX < divX + divWidth && mouseY > divY && mouseY < divY + divHeight;
-//   }
-//   return false;
-// }
 
