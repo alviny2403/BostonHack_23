@@ -426,13 +426,12 @@ function draw() {
       }
     }
 
-        
 
     // Movement of your ship (WASD to move)
-    if (keyIsDown(87)) shootY -= 2;
-    if (keyIsDown(83)) shootY += 2;
-    if (keyIsDown(65)) shootX-= 2;
-    if (keyIsDown(68)) shootX+= 2;
+    if (keyIsDown(87)||keyIsDown(38)) shootY -= 2;
+    if (keyIsDown(83)||keyIsDown(40)) shootY += 2;
+    if (keyIsDown(65)||keyIsDown(37)) shootX-= 2;
+    if (keyIsDown(68)||keyIsDown(39)) shootX+= 2;
 
     // Boundaries of the ship
     if (shootY  > 480) shootY  = 480;
