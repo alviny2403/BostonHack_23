@@ -8,6 +8,10 @@ let selectedCharacter;
 
 let images = [];
 
+let value;
+
+
+
 let imagePaths = [
   'Emote-Icons/UI_EmotionIcon3.png',
   'Emote-Icons/UI_EmotionIcon65.png',
@@ -61,7 +65,6 @@ function preload() {
   npc2 = loadImage('Emote-Icons/UI_EmotionIcon306.png');
   npc3 = loadImage('Emote-Icons/UI_EmotionIcon325.png');
   apple1 = loadImage('apple1.png');
-  apple2 = loadImage('apple2.png');
   appleField = loadImage('apple-field.png');
   home = loadImage('homescreen.png');
 
@@ -139,10 +142,35 @@ function draw() {
     text("Please Select a Character...", width/2, height/2);
   }
 
+
+  // background(backgroundImage);
+  // filter(BLUR, 3);
+
   if (state == 3){
-    document.getElementById('selections').style.display = 'none';
-    // Set the loaded image as the background
     background(backgroundImage);
+    document.getElementById('canvas').style.filter = 'blur(2px)';
+    document.getElementById('selections').style.display = 'none';
+    // if(keyIsDown(87) || keyIsDown(83) ||keyIsDown(65) || keyIsDown(68) || keyIsDown(38) || keyIsDown(40) ||keyIsDown(37) ||keyIsDown(39)) {
+    //   document.getElementById('canvas').style.filter = '';
+    // }
+
+
+    if (keyIsPressed===true) {
+      value = 1;}
+
+    if(value == 1) {
+        document.getElementById('canvas').style.filter = '';
+      }
+    
+
+    
+
+
+
+  
+
+      
+    
 
 
     // Draw a red rectangle at (pX, pY)
@@ -239,13 +267,13 @@ function draw() {
       image(npc2, windowWidth*.77, windowHeight*.25, 40, 50);
       image(npc3, windowWidth*.35, windowHeight*.45, 40, 50);
   
-
+      // Proximity detection for npc interactions
     if (dist(pX,pY,windowWidth*.5,windowHeight*.75) < 100){ //panda looking dude
     }
     if (dist(pX,pY,windowWidth*.77,windowHeight*.25) < 150){
       
     }
-    if (dist(pX,pY,windowWidth*.35,windowHeight*.45) < 150){
+    if (dist(pX,pY,windowWidth*.35,windowHeight*.45) < 100){
       fill(0);
       rect(windowWidth*.65,windowHeight*.55,250,150);
       fill(255);
@@ -273,17 +301,25 @@ function draw() {
   }
 
   if (state == 4){
-    background(0);
-        rectMode(CENTER);
-        fill(125);
-        rect(bucketX,bucketY,40,40);
+    background(appleField);
+        //rectMode(CENTER);
+        //fill(125);
+        // rect(bucketX,bucketY,40,40);
+        if (selectedCharacter) {
+          let index = imagePaths.indexOf(selectedCharacter);
+          if (index !== -1) {
+            image(images[index], bucketX, bucketY, 50, 60);
+          }
+        }
 
         if (keyIsDown(37)) bucketX -= 5;
         if (keyIsDown(39)) bucketX += 5;
 
 
-        fill(255);
-        ellipse(applesArray[appleNum].xPos,applesArray[appleNum].yPos,20,20);
+        // fill(255);
+        // ellipse(applesArray[appleNum].xPos,applesArray[appleNum].yPos,20,20);
+        image(apple1,applesArray[appleNum].xPos,applesArray[appleNum].yPos,30,30);
+
         applesArray[appleNum].yPos += applesArray[appleNum].spd;
         console.log(applesArray[appleNum].yPos)
 
@@ -293,9 +329,10 @@ function draw() {
         }
         if (appleNum < 5){
             if (
-                applesArray[appleNum].yPos+10 > bucketY-20 &&
-                applesArray[appleNum].xPos > bucketX-20 &&
-                applesArray[appleNum].xPos < bucketX+20
+                applesArray[appleNum].yPos > bucketY-20 &&
+                applesArray[appleNum].yPos < bucketY+20 &&
+                applesArray[appleNum].xPos > bucketX-25 &&
+                applesArray[appleNum].xPos < bucketX+25
             ){
                 applesArray[appleNum] = 0;
                 appleNum++;
@@ -357,7 +394,8 @@ function mouseClicked(){
       }
     }
   }
-  if (state == 3){
+
+  if (state == 3){   
     if (
       mouseX < 75 && 
       mouseX > 0 && 
