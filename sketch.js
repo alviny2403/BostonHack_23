@@ -16,10 +16,20 @@ let backgroundImage;
 function preload() {
   // Load the image in the preload function
   backgroundImage = loadImage('mapCropped.png');
-  character = loadImage('Emote-Icons/UI_EmotionIcon3.png');
+  character1 = loadImage('Emote-Icons/UI_EmotionIcon3.png');
+  character2 = loadImage('Emote-Icons/UI_EmotionIcon65.png');
+  character3 = loadImage('Emote-Icons/UI_EmotionIcon113.png');
+  characte4 = loadImage('Emote-Icons/UI_EmotionIcon369.png');
+  character5 = loadImage('Emote-Icons/UI_EmotionIcon80.png');
+  character6 = loadImage('Emote-Icons/UI_EmotionIcon422.png');
   npc1 = loadImage('Emote-Icons/UI_EmotionIcon192.png');
   npc2 = loadImage('Emote-Icons/UI_EmotionIcon306.png');
   npc3 = loadImage('Emote-Icons/UI_EmotionIcon325.png');
+  apple1 = loadImage('apple1.png');
+  apple2 = loadImage('apple2.png');
+  appleField = loadImage('apple-field.png');
+
+
 }
 
 function draw() {
